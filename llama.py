@@ -213,7 +213,7 @@ class GroupedQueryAttention(nn.Module):
         attn_scores = (q @ k.transpose(2, 3) * (1 / (k.size(-1) ** 0.5))) # (QK^T)/sqrt(dim_k)
         
         # Applying mask for Causal Language Modeling
-        attn_scores.masked_fill(mask, -torch.inf)
+        attn_scores = attn_scores.masked_fill(mask, -torch.inf)
         
         # Normalizing attention scores by applying row-wise softmax -> attention in each row sums up to 1
         normalized_attn_scores = F.softmax(attn_scores, dim=-1)
